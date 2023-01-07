@@ -110,6 +110,7 @@ div.setAttribute("class", "center");
 console.log("lenght" + length);
 for (let i = 0; i < 22; i++) {
   let tr = document.createElement("tr");
+  tr.setAttribute("class", "row");
   let str = data.puzzle[0].Alphabet_grid[i];
   let index = 17;
   if (getvalue == 1) {
