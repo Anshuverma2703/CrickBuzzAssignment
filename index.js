@@ -177,8 +177,7 @@ function searching(res) {
   if (verticleDirflag == true) {
     for (let i = 0; i < element.length; i++) {
       if (
-        element[i].innerText === res[j] &&
-        element[i].style.backgroundColor != "yellow"
+        element[i].innerText === res[j] 
       ) {
         // console.log(res[j]);
         let flag = verticleSearch(i, j, res);
@@ -230,8 +229,7 @@ function horizontaldirectionSearch(i, j, res) {
   let flag = true;
   let k;
   if (
-    element[i + 1].innerText === res[++j] &&
-    element[i + 1].style.backgroundColor != "yellow"
+    element[i + 1].innerText === res[++j] 
   ) {
     // to change the row
     for (k = 1; k < res.length; k++) {
