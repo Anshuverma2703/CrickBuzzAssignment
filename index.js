@@ -191,6 +191,7 @@ function displaygrid(wordcol, gridindex, switchplayer) {
     else{
         mapcol.set(0,col);
         maprow.set(0,row);
+        alert("Your input is not found")
     }
 
     let len = word.length;
