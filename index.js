@@ -107,6 +107,7 @@ function displaygrid(wordcol, gridindex, switchplayer) {
   table.setAttribute("class", "table");
   var div = document.createElement("div");
   div.setAttribute("class", "center");
+  let worldmap = new Map();
   let str;
   let Array_2d = [];
 
@@ -139,6 +140,7 @@ function displaygrid(wordcol, gridindex, switchplayer) {
   for (let i = 0; i < wordcol; i++) {
     let para = document.createElement("p");
     let strword = data.puzzle[switchplayer].find_words[i];
+    // worldmap.set(strword , i);
     // console.log( "str "+str.length)
     para.innerText = strword;
     search.appendChild(para);
@@ -191,7 +193,7 @@ function displaygrid(wordcol, gridindex, switchplayer) {
     else{
         mapcol.set(0,col);
         maprow.set(0,row);
-        alert("Your input is not found")
+        // alert("Your input is not found")
     }
 
     let len = word.length;
