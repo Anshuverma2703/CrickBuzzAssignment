@@ -81,175 +81,167 @@ let data = {
     },
   ],
 };
-//  let str = data.puzzle[0].Alphabet_grid[0];
-//  console.log(str)
 
-let getplay = document.getElementById("play");
-let getvalue = 0;
-
-// let options = document.querySelector("#option1");
-getplay.addEventListener("click", (e) => {
-  console.log("hellow");
-  console.log(e.target.value);
-  if (e.target.value == 0 || e.target.value == 1) {
-    getvalue = e.target.value;
+let switchbtn = document.getElementById("play");
+let switchplayer = 0;
+let wordcol = data.puzzle[switchplayer].find_words.length;
+let gridindex = data.puzzle[switchplayer].Alphabet_grid.length;
+switchbtn.addEventListener("click", (e) => {
+  // console.log(e.target.value);
+  if (e.target.value != switchplayer) {
+    switchplayer = e.target.value;
+    wordcol = data.puzzle[switchplayer].find_words.length;
+    gridindex = data.puzzle[switchplayer].Alphabet_grid.length;
+    displaygrid(wordcol, gridindex, switchplayer);
   }
 });
 
-let changeplayer = "puzzle";
-if (getvalue == 1) {
-  changeplayer = "find_words";
-}
+// calling display grid function to dispaly grid
+displaygrid(wordcol, gridindex, switchplayer);
 
-let grid = document.querySelector(".right_down");
-var table = document.createElement("table");
-table.setAttribute("class", "table");
-var div = document.createElement("div");
-div.setAttribute("class", "center");
-// let length = data.puzzle[getvalue].Alphabet_grid.length;
-console.log("lenght" + length);
-for (let i = 0; i < 22; i++) {
-  let tr = document.createElement("tr");
-  tr.setAttribute("class", "row");
-  let str = data.puzzle[0].Alphabet_grid[i];
-  let index = 17;
-  if (getvalue == 1) {
-    index = 16;
-  }
-  for (let j = 0; j < index; j++) {
-    let char = str.charAt(j);
-    let td = document.createElement("td");
-    td.innerHTML = char;
+// declaring display grid function
+function displaygrid(wordcol, gridindex, switchplayer) {
+  let grid = document.querySelector(".right_down");
+  grid.innerHTML = "";
+  var table = document.createElement("table");
+  table.setAttribute("class", "table");
+  var div = document.createElement("div");
+  div.setAttribute("class", "center");
+  let str;
+  let Array_2d = [];
 
-    td.setAttribute("class", "cell");
+  //   to making a grid
+  for (let i = 0; i < gridindex; i++) {
+    let array = [];
+    let tr = document.createElement("tr");
+    tr.setAttribute("class", "row");
+    str = data.puzzle[switchplayer].Alphabet_grid[i];
 
-    tr.appendChild(td);
-  }
-  table.appendChild(tr);
-}
-div.appendChild(table);
-grid.appendChild(div);
+    for (let j = 0; j < str.length; j++) {
+      let char = str.charAt(j);
+      array.push(char);
+      let td = document.createElement("td");
+      td.innerText = char;
 
-let search = document.querySelector(".left2");
+      td.setAttribute("class", "cell");
 
-for (let i = 0; i < 14; i++) {
-  let para = document.createElement("p");
-  let str = data.puzzle[0].find_words[i];
-  para.innerHTML = str;
-  search.appendChild(para);
-}
-
-let input = document.getElementById("in");
-let btn = document.getElementById("btn");
-let element = document.querySelectorAll(".cell");
-let result;
-btn.addEventListener("click", () => {
-  result = input.value.toUpperCase();
-  // console.log(result)
-  searching(result);
-});
-
-function searching(res) {
-  let j = 0;
-  let verticleDirflag = true;
-  // let flag;
-  // console.log("hell")
-  for (let i = 0; i < element.length; i++) {
-    if (
-      element[i].innerText === res[j] &&
-      element[i].style.backgroundColor != "yellow"
-    ) {
-      // console.log(res[j]);
-      // let temp = i;
-      let flag = horizontaldirectionSearch(i, j, res);
-
-      // console.log("sd"+flag)
-      if (flag == false) {
-        console.log(res);
-        continue;
-
-        // return true;
-        // break;
-      } else if (flag === true) {
-        verticleDirflag = false;
-      }
+      tr.appendChild(td);
     }
+    table.appendChild(tr);
+    Array_2d.push(array);
   }
-  if (verticleDirflag == true) {
-    for (let i = 0; i < element.length; i++) {
-      if (
-        element[i].innerText === res[j] 
-      ) {
-        // console.log(res[j]);
-        let flag = verticleSearch(i, j, res);
+  div.appendChild(table);
+  grid.appendChild(div);
 
-        // console.log("sd"+flag)
-        if (flag == false) {
-          console.log(res);
-          continue;
-        } else if (flag === true) {
-          verticleDirflag = false;
-          break;
+  // to make a searching world column
+  let search = document.querySelector(".left2");
+  search.innerHTML = "";
+  for (let i = 0; i < wordcol; i++) {
+    let para = document.createElement("p");
+    let strword = data.puzzle[switchplayer].find_words[i];
+    // console.log( "str "+str.length)
+    para.innerText = strword;
+    search.appendChild(para);
+  }
+
+  //   to take input from the input field on click submit button
+  let input = document.getElementById("in");
+  let btn = document.getElementById("btn");
+  let element = document.querySelectorAll(".cell");
+  let result;
+  btn.addEventListener("click", () => {
+    result = input.value.toUpperCase();
+    // console.log(result)
+    patternSearch(Array_2d, result);
+  });
+
+  // console.log(Array_2d);
+  let x = [-1, -1, -1, 0, 0, 1, 1, 1];
+
+  let y = [-1, 0, 1, -1, 1, -1, 0, 1];
+  let maprow = new Map();
+  let mapcol = new Map();
+
+  function patternSearch(grid, word) {
+    // Consider every point as starting
+    // point and search given word
+
+    for (let row = 0; row < gridindex; row++) {
+      for (let col = 0; col < str.length; col++) {
+        if (search2D(grid, row, col, word)) {
+            console.log(mapcol)
+            console.log(maprow)
+            ColorGrid()
+        }
+        else{
+            mapcol.clear();
+            maprow.clear();
         }
       }
     }
   }
-}
-function verticleSearch(i, j, res) {
-  let k;
-  let flag = true;
-  let indexArray = [];
-  indexArray.push(i);
-  if (element[i + 17].innerText === res[++j]) {
-    let temp = 0;
 
-    for (k = 1; k < res.length; k++) {
-      // console.log("verti"+element[i+temp].innerText)
-      temp += 17;
-      if (element[i + temp].innerText != res[k]) {
-        flag = false;
-        break;
-      }
-      indexArray.push(i + temp);
+  function search2D(grid, row, col, word) {
+    // If first character of word
+    // doesn't match with
+    // given starting point in grid.
+    if (grid[row][col] != word[0]){
+        return false;
+    } 
+    else{
+        mapcol.set(0,col);
+        maprow.set(0,row);
     }
-    console.log(indexArray)
-    console.log(flag)
 
-    if (flag == true) {
-      for (let l = 0; l < indexArray.length; l++) {
-        // console.log("hellow")
+    let len = word.length;
 
-        element[indexArray[l]].style.backgroundColor = "yellow";
+    // Search word in all 8 directions
+    // starting from (row, col)
+    for (let dir = 0; dir < 8; dir++) {
+      // Initialize starting point
+      // for current direction
+      let k,
+        rd = row + x[dir],
+        cd = col + y[dir];
+
+      // First character is already checked,
+      // match remaining characters
+      for (k = 1; k < len; k++) {
+        // If out of bound break
+        if (rd >= gridindex || rd < 0 || cd >= str.length || cd < 0) break;
+
+        // If not matched, break
+        if (grid[rd][cd] != word[k]) break;
+
+        // Moving in particular direction
+        maprow.set(k , rd);
+        rd += x[dir];
+        mapcol.set(k , cd);
+        cd += y[dir];
       }
+
+      // If all character matched,
+      // then value of must
+      // be equal to length of word
+      if (k == len) return true;
     }
-    return flag
-   
+    return false;
   }
-}
-function horizontaldirectionSearch(i, j, res) {
-  let flag = true;
-  let k;
-  if (
-    element[i + 1].innerText === res[++j] 
-  ) {
-    // to change the row
-    for (k = 1; k < res.length; k++) {
-      console.log("akjbk");
-      if (element[i + k].innerText != res[k]) {
-        flag = false;
-        break;
-      }
-    }
-    console.log(k + res.length);
-    if (flag == true) {
-      for (let l = i; l < res.length + i; l++) {
-        // console.log(k);
-        console.log("hellow");
-        console.log(element[l].innerText);
-        element[l].style.backgroundColor = "yellow";
-      }
-    }
 
-    return flag;
+
+  function ColorGrid(){
+    let size = mapcol.size;
+    let posarr=[];
+    for(let i =0;i<size;i++){
+        let col = mapcol.get(i);
+        let row = maprow.get(i);
+        posarr.push(col+(row*str.length));
+    }
+    console.log(posarr);
+    for(let i =0;i<posarr.length;i++){
+        element[posarr[i]].style.backgroundColor = "yellow";
+    }
   }
+
+
 }
