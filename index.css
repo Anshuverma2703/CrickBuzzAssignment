@@ -14,17 +14,20 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
+    overflow: auto;
     /* margin: auto; */
 }
 
 #cricket {
     font-size: 60px;
-
+    font-family: cursive;
 }
 
 #world {
     font-size: 50px;
     font-weight: bolder;
+    text-align: center;
 
 }
 
@@ -41,16 +44,24 @@
     padding-bottom: 10px;
     margin: 17px;
     font-size: calc(95%);
+    text-align: center;
+    overflow: auto;
 }
 
 .left2 {
     border: 2px solid black;
     width: calc(51%);
-    margin-left: cal;
     margin: auto;
     margin-top: calc(9%);
     padding: calc(3%);
+    text-align: center;
+    overflow: auto;
 }
+.para{
+    font-weight: bold;
+    font-size: 18px;
+}
+
 
 .right {
     display: flex;
@@ -70,28 +81,37 @@
     margin-top: 20px;
     width: calc(100%);
     /* background-color: blue; */
+    flex-wrap: wrap;
+    overflow: auto;
 
 }
 
 #in {
-    WIDTH: calc(50%);
+    WIDTH: calc(19%);
     height: calc(55%);
     margin: 10px;
 }
 
 #btn {
     background-color: lightgreen;
-    WIDTH: calc(50%);
+    WIDTH: calc(35%);
     height: calc(60%);
-    margin: 10px;
+    margin: 10px 2px;
+    font-weight: bold;
+}
+#btn:hover{
+    background-color: darkgreen;
+    color: antiquewhite;
+
 }
 
 #play {
-    WIDTH: calc(20%);
-    height: calc(60%);
+    width: calc(19%);
+    height: calc(58%);
     margin: 10px;
 
 }
+
 
 .right_down {
     height: calc(100%);
@@ -99,6 +119,9 @@
     /* background-color: gray; */
     margin: 5px;
 
+}
+.center{
+    overflow: auto;
 }
 
 .cell {
@@ -109,27 +132,26 @@
     text-align: center;
 
 }
-.center{
-    overflow: auto;
-}
-
 
 .table {
     /* border: 2px solid black; */
     height: inherit;
     width: inherit;
 }
-
 .popupDiv{
-    position: absolute;
-    left: 0px;
-    top: 0px;
     text-align: center;
-    font-size: xxx-large;
+    font-size: xx-large;
     font-weight: bolder;
-    font-family: cursive;
+    font-family: cursive;    
+    padding: auto;
+    position: absolute;
+    display: block;
+    opacity: 0.8;
+    height: auto;
+    width: 63%;
+    z-index: 101;
     margin: 25%;
-    width: 60%;
-    z-index: 1001;
+    top: 0;
+    left: 0;
     border-radius: 20px;
 }
